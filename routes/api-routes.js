@@ -69,3 +69,77 @@ module.exports = function(app) {
   });
 
 };
+
+
+  
+
+// this route is for getting the dummy data for dog walkers.
+
+app.get("/api/dogwalker",function (req,res){
+  let dbQuery = 'SELECT * FROM dogWalker';
+
+  connection.query (dbQuery,function(err,result){
+
+   if (err) throw err;
+   res.json(result);
+  })
+});
+
+
+
+
+//OWNER adding  a new dog
+app.post("/api/newDog,:dogName,:breed", (req, res)=>{
+ db.newDog.create({
+   dogName : req.params.name,
+   dogownerId : req.body.dogownerId,
+   breed : req.params.breed,
+ }).then (results => res.json(results));
+});
+
+// deleting a dog 
+
+app.delete("/api/deleteDog/:id", function(req, res) {
+  
+  db.deleteDog.destroy({
+    where: {
+      id: req.params.id
+    }
+  }).then(results => res.json(results) 
+    
+  );
+});
+
+// deleting actor 
+app.delete("/api/deleteActor/:userName", function (req,res ){
+  
+  db.deleteActor.destroy({
+    where: {
+      userName: req.params.userName,
+      passWord: req.body.passWord,
+    }
+ 
+  }).then(results => res.json(results)
+  );
+})
+
+
+
+  // Walker Tasks
+  // My Current Booked appts
+/*   app.get("/api/bookedappts", function(req, res) {
+    if (!req.user) {
+      // The user is not logged in, send back an empty object
+      res.json({});
+    } else {
+      db.getWalks({
+        req.body.dg
+      })
+      // Otherwise send back the user's email and id
+      // Sending back a password, even a hashed password, isn't a good idea
+      res.json({
+        email: req.user.email,
+        id: req.user.id
+      });
+    }
+  }); */
